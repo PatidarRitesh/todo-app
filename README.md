@@ -1,29 +1,63 @@
-# todo-app
+# To-Do App
 
-### This is a simple todo app backend built using Python FastAPI and PostgreSQL. and frontend built using Html, css , javascript.
+This is a simple To-Do app with a **FastAPI** backend and a **HTML, CSS, JavaScript** frontend. The backend uses **PostgreSQL** for data storage and **JWT (JSON Web Tokens)** for authentication.
 
-## Features
-- Signup
-- Login
-- Logout
-- Create todo
-- Update todo
-- Delete todo
-- Get all todos
-  
-## Installation
-- Clone the repository
-- Install the dependencies using `pip install -r requirements.txt`
-- Create a `.env` file and add the following environment variables
-  - `DATABASE_URL` : PostgreSQL database url
-  - `SECRET_KEY` : Secret key for encoding and decoding jwt tokens
-  - `ALGORITHM` : Algorithm used for encoding and decoding jwt tokens
+## 🚀 Features
+- ✅ User Signup 
+- 🔐 User Login & Logout (with JWT Authentication)
+- 📝 Create To-Do
+- ✏️ Update To-Do
+- ❌ Delete To-Do
+- 📋 Get All To-Dos
 
-## Run the backend app using `uvicorn main:app --reload`
-## Run the frontend app using `python -m http.server 8001`
-## Open the browser and go to `http://localhost:8001`
+---
 
-## API Documentation
-- Go to `http://localhost:8000/docs` to view the API documentation after running the backend app
-- Go to `http://localhost:8000/redoc` to view the API documentation after running the backend app
+## ⚙️ Installation
+
+1. **Clone the Repository:**  
+```bash
+git clone https://github.com/PatidarRitesh/todo-app.git
+cd todo-app
+```
+
+2. **Install Dependencies:**  
+```bash
+cd todo-app/backend
+pip install -r requirements.txt
+```
+
+3. **Set Up Environment Variables:**  
+Create a `.env` file in the project root:
+```env
+DATABASE_URL=your_postgresql_database_url
+SECRET_KEY=your_secret_key
+ALGORITHM=HS256  # or your preferred JWT algorithm
+```
+
+---
+
+## 🚀 Running the App
+
+### 📡 **Backend:**  
+```bash
+cd todo-app/backend/app
+uvicorn main:app --reload
+```
+
+### 🌐 **Frontend:**  
+```bash
+python -m http.server 8001
+```
+
+### 🔗 **Access the App:**  
+Open your browser and go to: [http://localhost:8001](http://localhost:8001)
+
+---
+
+## 📚 API Documentation
+- Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
+- ReDoc: [http://localhost:8000/redoc](http://localhost:8000/redoc)
+
+---
+
 
