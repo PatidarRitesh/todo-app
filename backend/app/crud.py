@@ -1,15 +1,25 @@
 from sqlalchemy.orm import Session
 from . import models, schemas
 from fastapi import HTTPException
-def create_todo(db: Session, todo: schemas.TodoCreate):
-    db_todo = models.Todo(**todo.dict())
+# def create_todo(db: Session, todo: schemas.TodoCreate):
+#     db_todo = models.Todo(**todo.dict())
+#     db.add(db_todo)
+#     db.commit()
+#     db.refresh(db_todo)
+#     return db_todo
+
+def create_todo(db: Session, todo: schemas.TodoCreate, user_id: int):  # Added user_id here
+    db_todo = models.Todo(**todo.dict(), user_id=user_id)  # Assign user_id while creating the ToDo
     db.add(db_todo)
     db.commit()
     db.refresh(db_todo)
     return db_todo
+# def get_todos(db: Session):
+#     return db.query(models.Todo).all()
 
-def get_todos(db: Session):
-    return db.query(models.Todo).all()
+
+def get_todos(db: Session, user_id: int):
+    return db.query(models.Todo).filter(models.Todo.user_id == user_id).all()
 
 def get_todo_by_id(db: Session, todo_id: int):
     return db.query(models.Todo).filter(models.Todo.id == todo_id).first()
