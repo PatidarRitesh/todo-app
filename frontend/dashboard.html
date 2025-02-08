@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Your To-Do List</h2>
+        <button onclick="logout()">Logout</button>
+        <form id="todoForm">
+            <input type="text" id="todoTitle" placeholder="Title" required>
+            <input type="text" id="todoDescription" placeholder="Description">
+            <input type="date" id="todoDueDate">
+            <select id="todoStatus">
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+            </select>
+            <button type="submit">Add To-Do</button>
+        </form>
+        <ul id="todoList"></ul>
+    </div>
+
+    <script src="todos.js"></script>
+</body>
+</html>

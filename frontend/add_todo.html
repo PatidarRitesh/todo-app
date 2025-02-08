@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add/Edit To-Do</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        label { display: block; margin: 10px 0 5px; }
+        input, textarea, select { width: 100%; padding: 8px; margin-bottom: 10px; }
+        button { padding: 10px 15px; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1 id="form-title">Add New To-Do</h1>
+    <form id="todo-form">
+        <label for="title">Title *</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description"></textarea>
+
+        <label for="due_date">Due Date</label>
+        <input type="date" id="due_date" name="due_date">
+
+        <label for="status">Status</label>
+        <select id="status" name="status">
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+        </select>
+
+        <button type="submit">Save</button>
+        <button type="button" onclick="window.location.href='index.html'">Back</button>
+        <p class="error" id="error-message"></p>
+    </form>
+
+    <script>
+        const apiBaseUrl = "http://127.0.0.1:8000";
+        const urlParams = new URLSearchParams(window.location.search);
+        const todoId = urlParams.get('id');
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            window.location.href = "login.html";
+        }
+
+        if (todoId) {
+            document.getElementById("form-title").innerText = "Edit To-Do";
+            fetch(`${apiBaseUrl}/todos/${todoId}`, {
+                headers: { "Authorization": `Bearer ${token}` }
+            })
+            .then(response => {
+                if (response.status === 401) {
+                    localStorage.removeItem("token");
+                    window.location.href = "login.html";
+                }
+                return response.json();
+            })
+            .then(todo => {
+                document.getElementById("title").value = todo.title;
+                document.getElementById("description").value = todo.description;
+                document.getElementById("due_date").value = todo.due_date?.split('T')[0] || "";
+                document.getElementById("status").value = todo.status;
+            })
+            .catch(error => console.error("Error fetching to-do:", error));
+        }
+
+        document.getElementById("todo-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const todoData = {
+                title: document.getElementById("title").value,
+                description: document.getElementById("description").value,
+                due_date: document.getElementById("due_date").value,
+                status: document.getElementById("status").value
+            };
+
+            const method = todoId ? "PUT" : "POST";
+            const url = todoId ? `${apiBaseUrl}/todos/${todoId}` : `${apiBaseUrl}/todos/`;
+
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify(todoData)
+                });
+
+                if (response.status === 401) {
+                    localStorage.removeItem("token");
+                    window.location.href = "login.html";
+                } else if (!response.ok) {
+                    throw new Error("Failed to save To-Do.");
+                }
+
+                window.location.href = "index.html";
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById("error-message").innerText = "Failed to save. Try again.";
+            }
+        });
+    </script>
+</body>
+</html>
