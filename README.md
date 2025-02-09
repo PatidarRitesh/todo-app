@@ -63,6 +63,7 @@ uvicorn main:app --reload
 
 ### 🌐 **Frontend:**  
 ```bash
+cd todo-app/frontend
 python -m http.server 8001
 ```
 
