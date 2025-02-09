@@ -16,20 +16,35 @@ This is a simple To-Do app with a **FastAPI** backend and a **HTML, CSS, JavaScr
 
 1. **Clone the Repository:**  
 ```bash
+
 git clone https://github.com/PatidarRitesh/todo-app.git
 cd todo-app
+
 ```
 
 2. **Install Dependencies:**  
 ```bash
+
 cd todo-app/backend
 pip install -r requirements.txt
+
 ```
 
-3. **Set Up Environment Variables:**  
+3. **Set Up PostgreSQL Database:**  
+- **Download PostgreSQL** from the [official website](https://www.postgresql.org/download/) based on your OS.
+- After installation, create the database and user with the following commands:
+
+```sql
+CREATE DATABASE tododb;
+CREATE USER todo_user WITH PASSWORD 'password';
+GRANT ALL PRIVILEGES ON DATABASE tododb TO todo_user;
+GRANT ALL PRIVILEGES ON SCHEMA public TO todo_user;
+```
+
+4. **Set Up Environment Variables:**  
 Create a `.env` file in the project root:
 ```env
-DATABASE_URL=your_postgresql_database_url
+DATABASE_URL=postgresql://todo_user:password@localhost/tododb
 SECRET_KEY=your_secret_key
 ALGORITHM=HS256  # or your preferred JWT algorithm
 ```
@@ -40,8 +55,10 @@ ALGORITHM=HS256  # or your preferred JWT algorithm
 
 ### 📡 **Backend:**  
 ```bash
+
 cd todo-app/backend/app
 uvicorn main:app --reload
+
 ```
 
 ### 🌐 **Frontend:**  
@@ -59,5 +76,4 @@ Open your browser and go to: [http://localhost:8001](http://localhost:8001)
 - ReDoc: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
 ---
-
 
